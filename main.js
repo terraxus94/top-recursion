@@ -31,120 +31,44 @@ function fibsRec(n, sequence = [0, 1]) {
 
 let unsortedArray = [4, 8, 6, 2, 1, 7, 5, 3];
 
-function mergeSortMan(array) {
-  console.log(array);
-  let array1 = array.slice(0, array.length / 2);
-  let array2 = array.slice(array.length / 2);
-  console.log(array1);
-  console.log(array2);
+function mergeSortRec(array) {
+  if (array.length === 1) return array;
+  let firstHalf = [],
+    secondHalf = [];
 
-  let array11 = array1.slice(0, array1.length / 2);
-  let array12 = array1.slice(array1.length / 2);
-  console.log(array11);
-  console.log(array12);
-
-  let array21 = array2.slice(0, array2.length / 2);
-  let array22 = array2.slice(array2.length / 2);
-  console.log(array21);
-  console.log(array22);
-
-  let array31 = [],
-    array32 = [];
-  if (array11[0] < array11[1]) {
-    array31.push(array11[0]);
-    array31.push(array11[1]);
-  } else {
-    array31.push(array11[1]);
-    array31.push(array11[0]);
-  }
-  if (array12[0] < array12[1]) {
-    array32.push(array12[0]);
-    array32.push(array12[1]);
-  } else {
-    array32.push(array12[1]);
-    array32.push(array12[0]);
-  }
-
-  console.log(array31);
-  console.log(array32);
-
-  let array41 = [],
-    array42 = [];
-  if (array21[0] < array21[1]) {
-    array41.push(array21[0]);
-    array41.push(array21[1]);
-  } else {
-    array41.push(array21[1]);
-    array41.push(array21[0]);
-  }
-  if (array22[0] < array22[1]) {
-    array42.push(array22[0]);
-    array42.push(array22[1]);
-  } else {
-    array42.push(array22[1]);
-    array42.push(array22[0]);
-  }
-
-  console.log(array41);
-  console.log(array42);
+  firstHalf = array.slice(0, array.length / 2);
+  secondHalf = array.slice(array.length / 2);
+  //console.log(firstHalf, secondHalf);
+  return merge(mergeSortRec(firstHalf), mergeSortRec(secondHalf));
 }
 
-// smergeSortMan(unsortedArray);
+function merge(array1, array2) {
+  let sortedArray = [];
+  let counter1 = 0,
+    counter2 = 0;
+  console.log(array1, array2);
 
-function mergeSortRec(array) {
-  console.log(array);
-  let array1 = [],
-    array2 = [];
-  //array
-  // if array.length > 2 split na pola
-
-  if (array.length > 2) {
-    let tempArray = [];
-    tempArray.push(array.slice(0, array.length / 2));
-    tempArray.push(array.slice(array.length / 2));
-    //console.log(tempArray);
-    tempArray.forEach((entry) => {
-      mergeSortRec(entry);
-    });
-
-    // array1 = array.slice(0, array.length / 2);
-    // let temp1 = [];
-    // temp1.push(mergeSortRec(array1));
-    // console.log(temp1);
-    // array2 = array.slice(array.length / 2);
-    // mergeSortRec(array2);
-  }
-
-  // if array.len = 2 compare first elements
-  if (array.length == 2) {
-    if (array[0] < array[1]) {
-      console.log(array);
-      return array;
+  while (counter1 < array1.length && counter2 < array2.length) {
+    if (array1[counter1] < array2[counter2]) {
+      sortedArray.push(array1[counter1]);
+      counter1++;
     } else {
-      let temp = array[0];
-      array[0] = array[1];
-      array[1] = temp;
-      console.log(array);
-      return array;
+      sortedArray.push(array2[counter2]);
+      counter2++;
     }
   }
-}
-// mergeSortRec(unsortedArray);
 
-function mergeSortRec2(array) {
-  console.log(array);
-  if (array.length == 1) {
-    return array;
+  if (counter1 < array1.length) {
+    sortedArray.push(array1[counter1]);
+    counter1++;
   }
 
-  if (array.length > 1) {
-    let tempArray = [];
-    tempArray.push(array.slice(0, array.length / 2));
-    tempArray.push(array.slice(array.length / 2));
-    //console.log(tempArray);
-    tempArray.forEach((entry) => {
-      mergeSortRec2(entry);
-    });
+  if (counter2 < array2.length) {
+    sortedArray.push(array2[counter2]);
+    counter2++;
   }
+
+  return sortedArray;
 }
-// mergeSortRec2(unsortedArray);
+console.log(unsortedArray);
+console.log(mergeSortRec(unsortedArray));
